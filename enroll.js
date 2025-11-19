@@ -16,7 +16,7 @@ document.getElementById("enrollForm").addEventListener("submit", async (e) => {
     formData.append("photo", file);     // MUST MATCH FASTAPI
 
     try {
-        const response = await fetch("http://127.0.0.1:8000/enroll", {
+        const response = await fetch("https://class2lens-backend.onrender.com/enroll", {
             method: "POST",
             body: formData,
         });

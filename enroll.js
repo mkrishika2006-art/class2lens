@@ -1,65 +1,41 @@
-// ===== API URL (Replace later with your Render backend URL) =====
-const API_BASE = "https://class2lens-backend.onrender.com/enroll"; 
-
-// ===== Camera Setup =====
-const video = document.getElementById("camera");
-const canvas = document.getElementById("snapshot");
-const captureBtn = document.getElementById("captureBtn");
-
-navigator.mediaDevices.getUserMedia({ video: true })
-    .then(stream => {
-        video.srcObject = stream;
-    })
-    .catch(err => {
-        alert("Camera access denied!");
-        console.error(err);
-    });
-
-// ===== Capture Image =====
-let capturedImage = null;
-
-captureBtn.addEventListener("click", () => {
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-
-    const ctx = canvas.getContext("2d");
-    ctx.drawImage(video, 0, 0);
-
-    capturedImage = canvas.toDataURL("image/jpeg");
-
-    alert("Photo captured successfully!");
-});
+// ===== API URL =====
+const API_BASE = "https://class2lens-backend.onrender.com";
 
 // ===== Submit enrollment =====
 document.getElementById("enrollForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    if (!capturedImage) {
-        alert("Please capture a photo first!");
+    const name = document.getElementById("studentName").value;
+    const reg = document.getElementById("studentReg").value;
+    const photoFile = document.getElementById("photo").files[0];
+
+    if (!photoFile) {
+        alert("Please upload a photo!");
         return;
     }
 
-    const name = document.getElementById("studentName").value;
-    const reg = document.getElementById("studentReg").value;
-
-    const payload = {
-        name: name,
-        register_no: reg,
-        image: capturedImage
-    };
+    // Create form data for file upload
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("register_no", reg);
+    formData.append("photo", photoFile);
 
     try {
         const res = await fetch(`${API_BASE}/enroll`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
+            body: formData
         });
 
         const data = await res.json();
-        alert("Student enrolled successfully!");
+
+        if (res.ok) {
+            document.getElementById("status").innerText = "Student enrolled successfully!";
+        } else {
+            document.getElementById("status").innerText = "Enrollment failed!";
+        }
 
     } catch (err) {
         console.error(err);
-        alert("Enrollment failed!");
+        document.getElementById("status").innerText = "Error connecting to server!";
     }
 });

@@ -1,5 +1,5 @@
 // ===== API URL (Replace later with your Render backend URL) =====
-const API_BASE = "https://your-backend.onrender.com"; 
+const API_BASE = "https://class2lens-backend.onrender.com/enroll"; 
 
 // ===== Camera Setup =====
 const video = document.getElementById("camera");

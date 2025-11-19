@@ -11,9 +11,9 @@ document.getElementById("enrollForm").addEventListener("submit", async (e) => {
     }
 
     const formData = new FormData();
-    formData.append("name", name);      // MUST MATCH FASTAPI
-    formData.append("regno", regno);    // MUST MATCH FASTAPI
-    formData.append("photo", file);     // MUST MATCH FASTAPI
+    formData.append("name", name);
+    formData.append("regno", regno);
+    formData.append("photo", file);
 
     try {
         const response = await fetch("https://class2lens-backend.onrender.com/enroll", {
@@ -28,3 +28,4 @@ document.getElementById("enrollForm").addEventListener("submit", async (e) => {
             "Enrollment failed — backend not reachable.";
     }
 });
+

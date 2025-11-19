@@ -20,20 +20,18 @@
             <label>Register Number</label>
             <input type="text" id="studentReg" placeholder="Enter register number" required />
 
-            <label> Student Face Photo </label>
-            <video id="camera" autoplay muted playsinline></video>
+            <label>Upload Student Face Photo</label>
+            <input type="file" id="photo" accept="image/*" required />
 
-            <button type="button" class="btn" id="captureBtn">Capture Photo</button>
-
-            <canvas id="snapshot" style="display:none;"></canvas>
-
-            <button type="submit" class="btn btn-green">Submit</button>
+            <button type="submit" class="btn btn-green">Submit Enrollment</button>
         </form>
+
+        <p id="status" class="status-text"></p>
 
         <a href="index.html" class="back-link">← Back to Home</a>
     </div>
 
-    <script src="camera.js"></script>
     <script src="enroll.js"></script>
 </body>
 </html>
+

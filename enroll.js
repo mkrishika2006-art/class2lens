@@ -1,40 +1,31 @@
-// ===== API URL =====
-const API_BASE = "https://class2lens-backend.onrender.com";
 
-// ===== Submit enrollment =====
 document.getElementById("enrollForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const name = document.getElementById("studentName").value;
-    const reg = document.getElementById("studentReg").value;
-    const photoFile = document.getElementById("photo").files[0];
+    const regno = document.getElementById("studentReg").value;
+    const file = document.getElementById("photo").files[0];
 
-    if (!photoFile) {
-        alert("Please upload a photo!");
+    if (!file) {
+        alert("Please upload a photo");
         return;
     }
 
     const formData = new FormData();
     formData.append("name", name);
-    formData.append("register_no", reg);
-    formData.append("photo", photoFile);
+    formData.append("regno", regno);
+    formData.append("photo", file);
 
     try {
-        const res = await fetch(`${API_BASE}/enroll`, {
+        const response = await fetch("https://class2lens-backend.onrender.com/enroll", {
             method: "POST",
-            body: formData
+            body: formData,
         });
 
-        const data = await res.json();
-
-        if (res.ok) {
-            document.getElementById("status").innerText = "Student enrolled successfully!";
-        } else {
-            document.getElementById("status").innerText = "Enrollment failed!";
-        }
-
-    } catch (err) {
-        console.error(err);
-        document.getElementById("status").innerText = "Error connecting to server!";
+        const result = await response.json();
+        document.getElementById("status").textContent = result.message;
+    } catch (error) {
+        document.getElementById("status").textContent =
+            "Enrollment failed — backend not reachable.";
     }
 });
